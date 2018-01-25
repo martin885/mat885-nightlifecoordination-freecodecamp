@@ -1,16 +1,26 @@
-<h1 class="text-center">Voting App</h1>
+<a href="/login" ng-if="!vm.user">Login</a>
+<a href="/register" ng-if="!vm.user">Register</a>
+<button class="btn btn-link" ng-if="vm.user" ng-click="vm.logout();">Log out</button>
+<h3 ng-if="vm.user">Welcome back, {{vm.user.name}}</h3>
+<h3 ng-if="vm.user">Your location:{{vm.user.location}}</h3>
 <hr>
-<div class="container">
+<h3>
+    <input type="text" ng-model="vm.city" placeholder="your city...">
+    <button ng-disabled="!vm.city" class="btn btn-success" ng-click="vm.findBars(vm.city)">Find bars near you...</button>
+</h3>
 <hr>
-<a href="/login" class="btn btn-primary btn-block">Login</a>
-<br>
-<a href="/register" class="btn btn-primary btn-block">Register</a>
-<br><br>
-<div >
-<ul class="list-group list-group-flush">
-    <li ng-repeat="poll in vm.polls" class="list-group-item list-group-item-action" >
-        <a href="/polls/{{poll._id}}" ><h4>{{poll.name}}</h4></a>
+<h3 ng-cloak ng-if="vm.businesses.length>0">Bars near you...</h3>
+<ul style="list-style-type: none;" ng-disabled="vm.businesses.length>0" ng-cloak>
+    <li ng-repeat="business in vm.businesses">
+        <h3>{{business.name}}</h3>
+        <img ng-src="{{business.image_url}}" width="100px" height="100px" alt="">
+
+        
+        {{business.city}}
+        <h4>Users going:{{business.users.length}}</h4>
+        <div ng-if="vm.user">
+            <button class="btn btn-primary" ng-click="vm.attend(business)">Attend</button>
+            <button class="btn btn-danger" ng-click="vm.cancel(business)">Cancel</button>
+        </div><br>
     </li>
 </ul>
-</div>
-</div>
