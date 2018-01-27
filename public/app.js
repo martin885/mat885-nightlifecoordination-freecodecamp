@@ -68,19 +68,31 @@
         }
 
         vm.findBars = function (city) {
-            $window.localStorage.city=vm.city;
-            $http.get('/api/location/' + city).then(function (res) {
-                vm.businesses = res.data.businesses || res.data.jsonBody.businesses;
-            }, function (err) { 
-                console.log(err); 
+            $window.localStorage.city = vm.city;
+            $http.get('/api/location/' + city).then(function (response) {
+                if (response.data.businesses) {
+                    vm.businesses = response.data.businesses;
+                }
+                else {
+                    $http.get('/api/location/bars/' + city).then(function (res) {
+                        vm.businesses = res.data.businesses;
+                    }, function (err) {
+                        console.log(err);
+                    });
+                }
+            }, function (err) {
+                console.log(err);
             });
+
+
         }
+
         if ($window.localStorage.token) {
             var token = $window.localStorage.token;
-            vm.user=jwtHelper.decodeToken(token);
-            if($window.localStorage.city !==undefined && $window.localStorage.city!==null){
-            vm.findBars($window.localStorage.city);
-        }
+            vm.user = jwtHelper.decodeToken(token);
+            if ($window.localStorage.city !== undefined && $window.localStorage.city !== null) {
+                vm.findBars($window.localStorage.city);
+            }
         }
 
     }

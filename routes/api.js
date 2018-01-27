@@ -20,7 +20,8 @@ router.put('/api/location/addUser/:id', function (req, res) {
             return res.status(404).send('No bar found with this name');
         }
 
-userGoing=false;
+        userGoing = false;
+
         bar.users.forEach(function (user) {
 
             if (user.email === req.body.user.email) {
@@ -100,6 +101,21 @@ router.get('/api/location/:city', function (req, res) {
                 console.log(e);
                 return res.status(400).send(err);
             });
+
+        }
+        else {
+            return res.status(200).send({
+                businesses: bars
+            });
+        }
+    });
+});
+
+router.get('/api/location/bars/:city', function (req, res) {
+
+    Bars.find({ city: req.params.city }, function (err, bars) {
+        if (err) {
+            return res.status(400).send(err);
         }
         else {
             return res.status(200).send({
