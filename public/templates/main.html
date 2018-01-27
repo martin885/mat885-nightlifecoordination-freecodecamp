@@ -1,26 +1,34 @@
-<a href="/login" ng-if="!vm.user">Login</a>
-<a href="/register" ng-if="!vm.user">Register</a>
-<button class="btn btn-link" ng-if="vm.user" ng-click="vm.logout();">Log out</button>
-<h3 ng-if="vm.user">Welcome back, {{vm.user.name}}</h3>
-<h3 ng-if="vm.user">Your location:{{vm.user.location}}</h3>
+
+<a ng-if="!vm.user" class="btn btn-primary btn btn-block" href="/auth/facebook/" target="_blank" >Login with Facebook</a>
+<button class="btn btn-danger btn btn-block" ng-if="vm.user"ng-click="vm.logout();">Log out</button>
+
+<hr>
+
+<h3 ng-if="vm.user">Welcome back, {{vm.user.username}}</h3>
 <hr>
 <h3>
-    <input type="text" ng-model="vm.city" placeholder="your city...">
-    <button ng-disabled="!vm.city" class="btn btn-success" ng-click="vm.findBars(vm.city)">Find bars near you...</button>
+
+    <input class="form-control" type="text" ng-model="vm.city" placeholder="your city..." ng-value="vm.city"><br>
+
+    <button ng-disabled="!vm.city" class="btn btn-success btn btn-block" ng-click="vm.findBars(vm.city)">Find bars near you...</button>
 </h3>
 <hr>
-<h3 ng-cloak ng-if="vm.businesses.length>0">Bars near you...</h3>
+<h3 ng-cloak ng-if="vm.businesses.length>0" class="text-center">Bars near you...</h3><hr>
 <ul style="list-style-type: none;" ng-disabled="vm.businesses.length>0" ng-cloak>
     <li ng-repeat="business in vm.businesses">
-        <h3>{{business.name}}</h3>
-        <img ng-src="{{business.image_url}}" width="100px" height="100px" alt="">
+        <h3>{{business.name}}</h3><br><br>
+        <img ng-src="{{business.image_url}}" width="100px" height="100px" alt=""><br> <br>
 
-        
-        {{business.city}}
-        <h4>Users going:{{business.users.length}}</h4>
+       <h3>City: {{business.city}}</h3>
+
+
+        <h3>Users going:{{business.users.length}}</h3><br>
         <div ng-if="vm.user">
-            <button class="btn btn-primary" ng-click="vm.attend(business)">Attend</button>
-            <button class="btn btn-danger" ng-click="vm.cancel(business)">Cancel</button>
+            <button class="btn btn-primary" ng-click="vm.attend(business)" >Attend</button>
+            <button class="btn btn-danger" ng-click="vm.cancel(business)" >Cancel</button><br><hr>
         </div><br>
     </li>
 </ul>
+<hr>
+
+<footer>This app uses Yelp Fusion for the search</footer>
